@@ -6,9 +6,10 @@ __lua__
 cam_org = {x=0.0, y=0.0, z=-2.0}
 offset = 1.5
 frames = {}
-frame_count = 3
-frame_index = 1
-slow = 3
+frame_count = 8.
+frame_index = 1.
+slow = 2
+tick = 0
 -->8
 -- vector
 
@@ -78,7 +79,7 @@ function draw_pixel(x,y,c)
 end
 
 function scene(ray, n)
-    -- ray = v_roty(ray, n/frame_count)
+    ray = v_roty(ray, n/frame_count/4.)
     size = 0.5
     ray = v_abs(ray)
     d = (ray.x+ray.y+ray.z-size)*0.57735027
@@ -95,12 +96,12 @@ function trc(ray_org, ray_dir, n)
     ray = ray_org
     dist = 0.0
     tot_dist = 0.0
-    max_dist = 1.
-    for i=1,4 do
+    max_dist = 1.0
+    for i=1,8 do
         dist = scene(ray, n)
         ray = v_add(ray, v_mul(ray_dir, dist))
         if dist <= 0.01 then
-            return tot_dist/max_dist
+            return tot_dist/max_dist + 8
         end
         tot_dist = tot_dist + dist
     end
@@ -130,7 +131,7 @@ function fill_frame(n)
 end
 
 function draw_frame(n)
-    cls(15)
+    cls(0)
     for x=0,127 do
         for y=0,127 do
             draw_pixel(
@@ -147,21 +148,21 @@ end
 
 function _init()
     for n=1,frame_count do
-      cls(15)
+      cls(0)
       print("loading " ..n.. "/" ..frame_count)
       fill_frame(n)
     end
 end
 
 function _draw()
-    if slow % 3 == 0 then
+    if tick % slow == 0 then
       draw_frame(frame_index)
       frame_index = frame_index + 1
       if frame_index > frame_count then
         frame_index = 1
       end
     end
-    slow = slow + 1
+    tick = tick + 1
 end
 
 -->8
