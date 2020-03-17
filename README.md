@@ -1,5 +1,5 @@
 # pico-march
-Raymarching on [pico 8](https://www.lexaloffle.com/pico-8.php)?
+Raymarching on [PICO-8](https://www.lexaloffle.com/pico-8.php)?
 
 Frames are pre-buffered and then played back
 
